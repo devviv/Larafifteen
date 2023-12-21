@@ -13,7 +13,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::with("categorie")->get();
 
         return response()->json($articles, 200);
     }
@@ -93,16 +93,17 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
+        $message = "";
+        $status = 0;
         if (Article::where('id', $id)->exists()) {
             Article::destroy($id);
-            return response()->json([
-                "message" => "L'article a été bien supprimée"
-            ], 200);
+            $message = "La catégorie a été bien supprimée";
+            $status = 200;
         } else {
-            return response()->json([
-                "message" => "Cette article n'existe pas"
-            ], 500);
+            $message = "Cette article n'existe pas";
+            $status = 500;
         }
 
+        
     }
 }

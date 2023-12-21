@@ -43,6 +43,8 @@ Route::put('produits/{id}', [ ProduitController::class, 'update']);
 //Supprimer les produits
 Route::delete('produits', [ ProduitController::class, 'destroy']);
 
+
+
 //Afficher les categories
 Route::get('categories', [CategorieController::class, 'index']);
 
@@ -57,6 +59,7 @@ Route::put('categories/{id}', [ CategorieController::class, 'update']);
 
 //Supprimer une categorie
 Route::delete('categories/{id}', [ CategorieController::class, 'destroy']);
+
 
 
 //Afficher les article

@@ -12,7 +12,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $categories = Categorie::all();
+        $categories = Categorie::with("articles")->get();
         return response()->json($categories, 200);
     }
 
@@ -29,7 +29,7 @@ class CategorieController extends Controller
 
         return response()->json([
             "categorie" => $categorie,
-            "message" => "La catégorie a été bien ajouté"
+            "message" => "La catégorie a été bien ajoutée"
         ], 200);
     }
 
@@ -38,8 +38,6 @@ class CategorieController extends Controller
      */
     public function show($id)
     {
-
-
         if (Categorie::where('id', $id)->exists()) {
             $categorie = Categorie::find($id);
 
@@ -73,16 +71,18 @@ class CategorieController extends Controller
      */
     public function destroy($id)
     {
+        $message = "";
+        $status = 0;
         if (Categorie::where('id', $id)->exists()) {
             Categorie::destroy($id);
-
-            return response()->json([
-                "message" => "La catégorie a été bien supprimée"
-            ], 200);
+            $message = "La catégorie a été bien supprimée";
+            $status = 200;
         } else {
-            return response()->json([
-                "message" => "Cette catégorie n'existe pas"
-            ], 500);
+            $message = "Cette catégorie n'existe pas";
+            $status = 500;
         }
+        return response()->json([
+            "message" => $message
+        ], $status);
     }
 }
